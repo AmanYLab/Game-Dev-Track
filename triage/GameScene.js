@@ -44,12 +44,12 @@ class GameScene extends Phaser.Scene {
     panel(350, 410, 'PATIENT CHART');
     panel(770, 320, 'TREATMENT AREA');
 
-    this.feedback = this.add.text(362, 440, '', { fontSize: '14px', color: '#ffffff', wordWrap: { width: 388 }, lineSpacing: 3 });
+    this.feedback = this.add.text(362, 390, '', { fontSize: '15px', color: '#ffffff', wordWrap: { width: 388 }, lineSpacing: 4 });
 
     // ESI quick guide
     const guide = {
-      1: 'Life-saving help NOW: no pulse, can\'t breathe, shock, nonstop seizure',
-      2: 'High risk (heart attack, stroke), confused, or danger-zone vitals: HR>100, RR>20, O2<92%',
+      1: 'Life-saving help NOW: not breathing, no pulse, airway closing, shock, nonstop seizure',
+      2: 'High risk if they wait: possible heart attack, stroke, brain bleed, new confusion, bad breathing trouble',
       3: 'Stable. Needs 2+ resources (labs, X-ray/CT, IV fluids/meds, stitches, specialist)',
       4: 'Stable. Needs 1 resource (e.g. just an X-ray, or just stitches)',
       5: 'Stable. Needs 0 resources (exam, pills, or a prescription only)'
@@ -263,28 +263,19 @@ class GameScene extends Phaser.Scene {
 
     add(this.add.text(365, 95, `${p.name}, ${p.c.age} y/o ${p.c.sex === 'F' ? 'female' : 'male'}`, { fontSize: '22px', color: '#ffffff', fontStyle: 'bold' }));
     add(this.add.text(365, 130, 'CHIEF COMPLAINT', { fontSize: '13px', color: '#9fb3c8' }));
-    add(this.add.text(365, 148, p.c.complaint, { fontSize: '17px', color: '#ffffff', wordWrap: { width: 380 }, lineSpacing: 3 }));
+    add(this.add.text(365, 152, p.c.complaint, { fontSize: '20px', color: '#ffffff', wordWrap: { width: 380 }, lineSpacing: 5 }));
 
-    const v = p.c.vitals;
-    add(this.add.text(365, 228, 'VITAL SIGNS', { fontSize: '13px', color: '#9fb3c8' }));
-    add(this.add.text(365, 246, [
-      `Heart rate (HR):     ${v.hr} bpm`,
-      `Blood pressure:      ${v.bp}`,
-      `Breathing (RR):      ${v.rr} /min`,
-      `Oxygen (SpO2):       ${v.spo2}`,
-      `Temperature:         ${v.temp} °F`
-    ].join('\n'), { fontSize: '16px', color: '#ffffff', fontFamily: 'monospace', lineSpacing: 5 }));
-
-    add(this.add.text(365, 362, 'ASSIGN TRIAGE LEVEL:', { fontSize: '13px', color: '#9fb3c8' }));
+    // Triage buttons ESI 1-5
+    add(this.add.text(365, 290, 'ASSIGN TRIAGE LEVEL:', { fontSize: '13px', color: '#9fb3c8' }));
     for (let n = 1; n <= 5; n++) {
       const x = 365 + (n - 1) * 77;
-      const btn = add(this.add.rectangle(x, 380, 70, 44, ESI_COLORS[n]).setOrigin(0).setInteractive({ useHandCursor: true }));
+      const btn = add(this.add.rectangle(x, 308, 70, 44, ESI_COLORS[n]).setOrigin(0).setInteractive({ useHandCursor: true }));
       btn.on('pointerover', () => btn.setStrokeStyle(3, 0xffffff));
       btn.on('pointerout', () => btn.setStrokeStyle());
       btn.on('pointerdown', () => this.assign(n));
-      add(this.add.text(x + 35, 402, `ESI ${n}`, { fontSize: '18px', color: '#111111', fontStyle: 'bold' }).setOrigin(0.5));
+      add(this.add.text(x + 35, 330, `ESI ${n}`, { fontSize: '18px', color: '#111111', fontStyle: 'bold' }).setOrigin(0.5));
     }
-    add(this.add.text(555, 428, '(or press keys 1-5)', { fontSize: '12px', color: '#6c829a' }).setOrigin(0.5, 0));
+    add(this.add.text(555, 358, '(or press keys 1-5)', { fontSize: '12px', color: '#6c829a' }).setOrigin(0.5, 0));
   }
 
   endGame() {
