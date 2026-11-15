@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#eef6ef">
+	<title>Care Route | Vital Quest</title>
+	<link rel="stylesheet" href="styles.css">
+	<script src="app.js" defer></script>
+</head>
+<body>
+	<header class="topbar">
+		<a class="brand" href="#top" aria-label="Care Route home">
+			<span class="brand-mark" aria-hidden="true">+</span>
+			<span class="brand-copy"><strong>CARE ROUTE</strong><small>VITAL QUEST / COMMUNITY HEALTH</small></span>
+		</a>
+		<div class="top-note"><span class="pulse-dot" aria-hidden="true"></span> COMMUNITY CLINIC SIMULATION</div>
+	</header>
+
+	<main id="top" class="page-shell">
+		<section class="intro-row" aria-labelledby="page-title">
+			<div>
+				<p class="eyebrow">A SMALL GAME ABOUT A BIG SYSTEM</p>
+				<h1 id="page-title">Care is a journey.<br><em>Help make the way.</em></h1>
+			</div>
+			<p class="intro-copy">You are the community health navigator. Listen to each neighbor, spot the barrier, and connect them with support that makes care easier to reach.</p>
+		</section>
+
+		<div class="game-layout">
+			<section class="play-area" aria-label="Care Route game">
+				<div class="round-toolbar">
+					<div class="round-label"><span class="round-icon" aria-hidden="true">01</span><span id="round-text">YOUR SHIFT IS READY</span></div>
+					<div class="score-label"><span class="score-spark" aria-hidden="true">✳</span><span id="score-text">ACCESS WINS <strong>0</strong></span></div>
+				</div>
+				<div class="progress-track" aria-label="Shift progress"><span id="progress-fill"></span></div>
+				<section id="game-panel" class="game-panel" aria-live="polite" aria-atomic="true"></section>
+			</section>
+
+			<aside class="side-panel" aria-label="Game information">
+				<div class="side-heading"><span class="eyebrow">TODAY'S ROUTE</span><span class="route-count">5 NEIGHBORS</span></div>
+				<div class="route-map" aria-hidden="true">
+					<span class="map-line map-line-one"></span>
+					<span class="map-line map-line-two"></span>
+					<span class="map-line map-line-three"></span>
+					<span class="map-stop stop-clinic"><span>+</span></span>
+					<span class="map-stop stop-home"><span>H</span></span>
+					<span class="map-stop stop-bus"><span>B</span></span>
+					<span class="map-stop stop-community"><span>C</span></span>
+					<span class="map-label label-clinic">CLINIC</span>
+					<span class="map-label label-home">HOMES</span>
+					<span class="map-label label-bus">BUS LINE</span>
+				</div>
+				<div class="side-rule"></div>
+				<h2>What you're practicing</h2>
+				<p class="side-description">Health is shaped by more than a clinic visit. Transportation, language, cost, and accessible spaces can all affect whether someone can get care.</p>
+				<div class="topic-list" aria-label="Topics in the game">
+					<span><i class="topic-dot dot-coral"></i>Transportation</span>
+					<span><i class="topic-dot dot-yellow"></i>Language access</span>
+					<span><i class="topic-dot dot-blue"></i>Accessibility</span>
+					<span><i class="topic-dot dot-green"></i>Cost &amp; time</span>
+				</div>
+				<div class="safety-note"><span aria-hidden="true">i</span><p>This is a learning game about access to care, not medical advice.</p></div>
+			</aside>
+		</div>
+		<footer class="page-footer"><span>PROJECT VITAL QUEST</span><span>SMALL ACTIONS CAN OPEN BIG DOORS</span></footer>
+	</main>
+</body>
+</html>
