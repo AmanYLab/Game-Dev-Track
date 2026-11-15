@@ -1,220 +1,59 @@
-# Challenge #2: Project Vital Quest
+# Project Vital Quest
 
-## The Healthcare Game Development Challenge
+Project Vital Quest prototypes use interactive games to explore healthcare. The current remote `main` branch contains **Vital Quest: Triage**. **Care Route** is a separate prototype on the `aman` branch and is not included in the current `main` build.
 
-Design and build an interactive game that explores a healthcare topic. The game should be enjoyable to play while helping players learn, consider meaningful choices, and understand why the topic matters to individuals or communities.
+## Vital Quest: Triage
 
-You may work in any suitable game engine or platform, including Unity, Unreal Engine, Godot, Scratch, or another tool. A small, playable prototype is more important than a large, unfinished game.
+You are the triage nurse in a busy emergency department. Patients arrive faster than they can be treated. Review each fictional patient's complaint and vital signs, then assign a triage level using the five-level Emergency Severity Index (ESI).
 
-## Our Game: Care Route
+- **Objective:** Prioritize patients during a three-minute shift while managing limited beds and time.
+- **Controls:** Click a patient in the waiting room, then click ESI 1-5 or press keys 1-5.
+- **Consequences:** Undertriage can make a sick patient wait too long. Overtriage uses capacity that may be needed by more urgent patients. Patients may worsen or leave without being seen if waits are too long.
+- **Scoring:** +100 correct triage, +20 overtriage, -50 undertriage, +20 per patient treated, -150 bad outcome, and -40 for a patient leaving without being seen.
+- **Feedback:** Each decision explains the intended ESI level and rationale; the shift ends with a results summary.
 
-**Care Route** is a short browser-based community health game. The player is a community health navigator who listens to neighbors, identifies the obstacle making care difficult to reach, and chooses a support that addresses that obstacle.
+The patient cases are fictional learning examples, not medical advice or clinical training. Real triage requires qualified professionals and full patient context.
 
-- **Audience:** Students and other players learning about community health.
-- **Healthcare topic:** Access to care and the everyday factors that can affect it, including transportation, language access, physical accessibility, appointment availability, and cost information.
-- **Learning goal:** Players will recognize that getting healthcare can depend on more than the care itself, and that useful support starts by understanding the person's specific barrier.
-- **Genre:** Choice-based simulation and educational game.
-- **Objective:** Work through five neighbor scenarios and select a support for each one.
-- **Controls:** Use a mouse, touch screen, or keyboard to activate the on-screen buttons.
-- **Player actions:** Read a neighbor's situation, choose one of three responses, review feedback, and continue to the next neighbor.
-- **Progression:** Five short scenarios covering transportation, language, accessible entrances, scheduling, and cost questions.
-- **Scoring:** An Access Win is earned when the selected support addresses the barrier in that scenario. The score is feedback about matching support to a stated need, not a measure of a person's health or worth.
-- **Ending:** A shift summary shows the score and repeats the central learning point. Players can restart and try different choices.
+## Care Route
 
-The characters and scenarios are simplified examples for learning. The game does not diagnose, prescribe treatment, or replace advice from a qualified healthcare professional. Before presenting, the team should verify health-related statements with trustworthy sources and add those sources to its presentation notes.
+Care Route is a browser-based choice simulation on the `aman` branch. The player acts as a community health navigator, listens to five neighbors, and chooses support for the barrier each person describes.
 
-## Run the Game
+- **Healthcare topic:** Access to care, including transportation, language access, accessible entrances, appointment availability, and cost information.
+- **Learning goal:** Getting care can depend on more than the clinical service itself; useful support starts by understanding the person's specific barrier.
+- **Objective and progression:** Complete five short scenarios, each with three possible responses.
+- **Controls:** Use the on-screen buttons with a mouse, touch screen, or keyboard activation.
+- **Scoring:** Earn one Access Win when the chosen support addresses the stated barrier. This is a learning-game score, not a measure of a person's health or worth.
+- **Ending:** Immediate feedback follows each choice; a shift summary shows the score and learning point and allows replay.
 
-The prototype uses HTML, CSS, and JavaScript and does not require Python or a game engine.
+The characters and scenarios are simplified examples. The game does not diagnose, prescribe treatment, or replace advice from a qualified healthcare professional. Verify and cite relevant sources before presenting health claims.
 
-1. Open this repository's `index.html` in a browser, or use VS Code's **Open with Live Server** command if that extension is installed.
-2. Select **Start your shift**.
-3. Read each neighbor's situation and choose the response that best addresses the stated barrier.
-4. Read the feedback, continue through all five neighbors, and review the shift summary.
+## Running the Games
 
-If Node.js is installed, an optional local server can be started from the project folder:
+For Triage, use the latest `main` branch. For Care Route, switch to `aman`. In either branch, open the repository's `index.html` in a browser, or start a local static server from the project folder:
 
 ```powershell
 npx http-server -p 8000
 ```
 
-Then visit `http://127.0.0.1:8000` in a browser and leave the terminal running while you play. Do not run `node app.js` directly: the script uses browser APIs and is loaded by `index.html`.
+Then visit `http://127.0.0.1:8000` and leave the terminal running. Triage loads Phaser 3.80.1 from jsDelivr and needs an internet connection for that library. Care Route uses browser HTML, CSS, and JavaScript. Do not run browser scripts such as `app.js` directly with Node.
 
-## Team Workflow
+## Triage Sources and Content Notes
 
-Each teammate can work on a separate branch. A branch created only on one computer is not visible to others until it is pushed to the shared repository.
+- Emergency Nurses Association, *Emergency Severity Index Handbook*, 5th edition, and AHRQ, *ESI v4 Implementation Handbook*: triage levels, resources, and danger-zone vital signs.
+- Sax DR et al., “Evaluation of the Emergency Severity Index in US Emergency Departments for the Rate of Mistriage.” *JAMA Network Open*, 2023.
+- Sax DR et al., research on ESI v4 and pediatric emergency-department triage. *JAMA Pediatrics*, 2023.
+- EMRA Health Policy Journal Club: ESI adoption information.
+- CDC/NCHS Data Brief No. 503: U.S. emergency department visit rates, 2022.
+- CMS Timely & Effective Care data and Emergency Medicine Journal review: left-without-being-seen context.
 
-```powershell
-git switch -c your-name/feature
-git add .
-git commit -m "Describe your change"
-git push -u origin your-name/feature
-```
+The README lists source names, but teams should verify each factual claim and statistic against the original publication before presenting it. Do not present unverified figures as settled fact.
 
-Share changes by opening a pull request on GitHub and merging it into the agreed shared branch. Before starting work, update your local copy of that shared branch. Avoid having multiple people edit the same file at the same time where possible.
+## Adding Triage Cases
 
-## Testing and Presentation Notes
+Copy an entry in the `CASES` array in `cases.js` and update it carefully. Follow the ESI guidance at the top of that file and verify the case with authoritative clinical references. Patient cases must remain fictional teaching examples.
 
-Before presenting, ask someone outside the development team to play without coaching. Check whether they can start the game, understand the choices, finish the shift, and explain what the scenarios taught them. Record the feedback and any changes made afterward; do not claim testing was completed until the team has done it.
+## Team Testing and Presentation
 
-In the demonstration, explain the learning goal, controls, five barriers, how the Access Win score works, one example of a choice and its consequence, and what the team changed after testing. Identify team contributions and any AI tools or generated content used. The team should review and understand all submitted code and content.
+Ask someone outside the development team to try the game without coaching. Check whether the player can start, understand the controls and objective, complete the core loop, and explain the intended learning. Record what you learned and what you changed; do not claim a playtest unless it happened.
 
-## Challenge Goals
-
-Your project should:
-
-- Include at least one healthcare-related topic in its gameplay, story, or overall experience.
-- Give the player meaningful things to do, decide, explore, or solve.
-- Explain how the game works, including its controls, objective, player actions, and scoring or progression where applicable.
-- Communicate why the healthcare topic matters.
-- Demonstrate that the team understands and can explain its design and development choices.
-
-Possible topics include health and wellness, accessibility, medical science, public health, patient experiences, and real-world healthcare systems. Possible genres include simulation, adventure or RPG, strategy, puzzle, and platformer or action.
-
-## Step-by-Step Instructions
-
-### 1. Form a team and choose a topic
-
-Discuss the healthcare areas that interest your team. Choose one focused topic that can be represented clearly through a short game. Identify the audience you are designing for and what you want players to understand or think about after playing.
-
-Write a one-sentence learning goal, such as: "After playing, players will understand that access to healthcare can be affected by transportation, cost, and available services."
-
-### 2. Research the topic responsibly
-
-- Use trustworthy, current sources such as public health agencies, hospitals or universities, and recognized nonprofit organizations.
-- Record the source titles and links so you can cite them in your presentation or game materials.
-- Check that your game does not present inaccurate health claims as facts.
-- Keep the game educational. It should not diagnose players, prescribe treatment, or replace advice from a qualified healthcare professional.
-- If you include sensitive or personal topics, use respectful language and avoid stereotyping people or communities.
-
-### 3. Choose a game genre and define the core idea
-
-Choose a genre that supports the learning goal. Describe the game in a short pitch that answers:
-
-- Who does the player represent?
-- What situation or world are they in?
-- What is the player's main goal?
-- How does the healthcare topic affect the player's experience?
-- What should players learn, feel, or consider?
-
-Keep the first version small enough to finish. Choose one core gameplay loop, such as exploring, making a choice, seeing its result, and trying the next challenge.
-
-### 4. Design the gameplay
-
-Before building, write down the following:
-
-- **Objective:** What counts as completing the game or a level?
-- **Controls:** What keys, mouse actions, touch gestures, or controller inputs can the player use?
-- **Player actions:** What can the player do, and how do those actions connect to the healthcare topic?
-- **Choices and consequences:** What decisions can the player make, and what feedback follows?
-- **Progression:** How does the game get more challenging or reveal more information?
-- **Scoring or success:** If you use points, time, resources, or another measure, explain what it represents. Do not reward behavior that contradicts the learning goal.
-- **End state:** How does the player know they have succeeded, need to try again, or reached the end?
-- **Feedback:** How does the game communicate results, explain a concept, or help players recover from a mistake?
-
-The mechanics should teach through play where possible. Avoid relying only on blocks of text to deliver the lesson.
-
-### 5. Plan the story and impact
-
-Use characters, setting, events, or player choices to show why the healthcare issue matters. Consider how different people may experience the issue differently. Make the connection between the story and the learning goal clear without making the game feel like a lecture.
-
-### 6. Select tools and divide team tasks
-
-Choose the game engine, platform, art tools, and audio tools that suit your team's skills and the size of your idea. Agree on a simple task list and assign responsibilities, such as:
-
-- Game design and writing
-- Programming and implementation
-- Art, animation, and user interface
-- Audio and music
-- Research and fact-checking
-- Testing and presentation
-
-Team members may share responsibilities. Keep track of which tools and assets you use, including any AI tools.
-
-### 7. Build a playable prototype
-
-Implement the smallest complete version of the game. Aim to include:
-
-- A start screen or clear way to begin
-- Instructions or discoverable controls
-- At least one complete gameplay loop
-- The healthcare topic integrated into play or story
-- Feedback for player actions and choices
-- A clear ending, success condition, or next step
-
-Use placeholder art or sounds if needed. Make sure the core game can be played before spending time polishing optional features.
-
-### 8. Test and improve
-
-Ask someone who did not design the game to play it. Observe without explaining how it works, then ask:
-
-- Could they start and understand the controls?
-- Did they understand the objective and how to make progress?
-- Did the healthcare topic come through during play?
-- What did they learn or take away?
-- Were any choices, rules, or outcomes confusing?
-- Did they encounter bugs or difficulty using the game?
-
-Fix the most important problems, then test again. Check that text is readable, instructions are clear, and the game can be completed in the time available for judging.
-
-### 9. Prepare the presentation
-
-Prepare a short demonstration that lets judges see the game being played. Be ready to explain:
-
-- The healthcare topic and why your team chose it
-- The intended audience and learning goal
-- The genre, objective, controls, player actions, and progression or scoring
-- How the story and mechanics communicate the topic
-- What you learned from testing and what you changed
-- The tools, sources, assets, and AI tools used
-- Each team member's contribution
-
-Be prepared to explain and discuss any AI-assisted work. Your team should understand the code, content, and design decisions included in the submission.
-
-### 10. Run a final check
-
-Before presenting, confirm that:
-
-- The game runs on the device or platform you will use.
-- A player can start, understand the controls, play, and reach an ending.
-- The healthcare connection is clear and fact-checked.
-- The game communicates why the topic matters.
-- The team can explain the mechanics and development process.
-- Research sources and any third-party or AI-assisted assets are acknowledged as appropriate.
-
-## Suggested Submission Contents
-
-Unless your event organizers specify a different format, prepare:
-
-- A playable game or prototype
-- A short description of the game, its audience, and its learning goal
-- Controls, objective, player actions, and scoring or progression rules
-- A list of research sources
-- A brief account of tools, assets, and AI assistance used
-- A short presentation or live demonstration
-
-## Design Worksheet
-
-Use this as a quick planning template:
-
-```text
-Game title:
-Healthcare topic:
-Intended audience:
-Learning goal:
-Genre and one-sentence pitch:
-Player role and objective:
-Controls:
-Main player actions:
-Choices and consequences:
-Scoring or progression:
-Story and why the topic matters:
-Research sources:
-Tools and team responsibilities:
-How we will test the game:
-AI tools or AI-assisted assets used:
-```
-
-## Learning Outcomes
-
-By completing this challenge, participants will practice designing and implementing gameplay, creating an interactive experience, connecting a story and mechanics to a real-world topic, and using creative problem-solving to communicate ideas about health and healthcare.
+In the presentation, explain the healthcare topic, intended audience, learning goal, controls, choices, scoring, consequences, tools, sources, AI assistance, and each team member's actual contribution. Be clear about the prototype's limitations and distinguish code checks from user playtesting.

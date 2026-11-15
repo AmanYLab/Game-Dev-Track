@@ -9,7 +9,7 @@ The project histories are currently split across branches:
 - **Vital Quest: Triage** is documented on remote `main`. It is a Phaser browser game with patient cases, ESI triage, a three-minute shift, limited beds, and an end-of-shift report.
 - **Care Route** is on the `aman` branch. It is a browser choice game with five community-care access scenarios and an Access Wins score.
 - The combined chooser was developed in a separate local integration worktree and has not been merged or pushed. Do not tell judges that both games are available together in the shared repository unless the team has since integrated and verified them.
-- The local `main` checkout was observed to be behind remote `main`, and its root `index.html` and `app.js` were blank. Do not record from that stale checkout. Fetch the latest repo and open the correct branch or agreed merged build first.
+- The latest `main` contains the Triage game; Care Route remains on the separate `aman` branch. The two games have not been combined in the shared repository. Fetch the latest repo and open the branch for the game you are actually presenting.
 
 Before the video, confirm with the team which game is the submission. A focused, polished explanation of one game is safer than showing two disconnected prototypes without explaining their relationship.
 
