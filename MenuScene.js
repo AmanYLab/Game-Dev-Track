@@ -1,10 +1,10 @@
+// Title screen
 class MenuScene extends Phaser.Scene {
   constructor() { super('Menu'); }
 
   create() {
-    this.add.text(550, 170, 'VITAL QUEST', { fontSize: '64px', color: '#ffffff', fontStyle: 'bold' }).setOrigin(0.5);
-    this.add.text(550, 240, 'TRIAGE', { fontSize: '40px', color: '#ff6b6b', fontStyle: 'bold' }).setOrigin(0.5);
-    this.add.text(550, 320,
+    this.add.text(550, 200, 'TRIAGE GAME', { fontSize: '68px', color: '#ffffff', fontStyle: 'bold' }).setOrigin(0.5);
+    this.add.text(550, 310,
       'It\'s a Friday night in a busy Columbus ER and you\'re the triage nurse.\n' +
       'You can\'t treat everyone at once. Who gets care first?',
       { fontSize: '22px', color: '#cfe3ff', align: 'center', lineSpacing: 8 }).setOrigin(0.5);

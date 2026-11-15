@@ -1,7 +1,7 @@
 // ===== Shared game data: patient cases, colors, facts =====
-// Each case has its TRUE triage level (esi) based on the Emergency Severity Index (ESI v4/v5 rules):
+// Each case has its TRUE triage level (esi) based on the Emergency Severity Index (ESI) rules:
 //  ESI 1: needs immediate life-saving intervention
-//  ESI 2: high-risk situation, confused/lethargic, severe pain, or "danger zone" vitals
+//  ESI 2: high-risk situation (could get much worse if they wait), new confusion, severe distress
 //  ESI 3-5: stable, sorted by how many RESOURCES they need (3 = 2+, 4 = 1, 5 = none)
 //  Resources = labs, X-ray/CT/ultrasound, IV fluids, IV/IM meds, specialist consult, procedures (stitches)
 //  NOT resources = exam, oral meds, prescriptions, simple wound care, splints/crutches
@@ -14,103 +14,81 @@ const FIRST_NAMES = ['Maria', 'James', 'Aisha', 'Wei', 'Carlos', 'Emily', 'DeSha
   'Jamal', 'Ana', 'Ethan', 'Lucia', 'Noah', 'Amara'];
 
 const CASES = [
-  // ---------- ESI 1: life-saving intervention NOW ----------
+  // ---------- ESI 1: life-saving help NOW ----------
   { esi: 1, age: 58, sex: 'M', short: 'Collapsed, not breathing',
-    complaint: 'Friend dragged him in after he collapsed in the parking lot. Not breathing, no pulse.',
-    vitals: { hr: '0', bp: '--', rr: '0', spo2: '--', temp: '--' },
+    complaint: 'Friend dragged him in after he collapsed in the parking lot. He is not breathing and has no pulse.',
     why: 'No pulse and no breathing = cardiac arrest. He needs CPR right now.' },
   { esi: 1, age: 24, sex: 'F', short: 'Lips swelling, can\'t breathe',
-    complaint: 'Ate a cookie with peanuts 10 minutes ago. Lips and tongue swelling, wheezing, struggling to breathe.',
-    vitals: { hr: '132', bp: '84/50', rr: '30', spo2: '86%', temp: '98.6' },
-    why: 'Severe allergic reaction (anaphylaxis) closing her airway, with low blood pressure. She needs epinephrine and airway support immediately.' },
+    complaint: 'Ate a cookie with peanuts 10 minutes ago. Her lips and tongue are swelling and she is struggling to breathe.',
+    why: 'A severe allergic reaction (anaphylaxis) is closing her airway. She needs epinephrine immediately.' },
   { esi: 1, age: 35, sex: 'M', short: 'Car crash, bleeding, pale',
-    complaint: 'Car crash. Pale, sweaty, barely responding. Bleeding heavily from his leg.',
-    vitals: { hr: '142', bp: '72/40', rr: '28', spo2: '93%', temp: '97.9' },
-    why: 'Very low blood pressure + racing heart + barely responsive = shock from blood loss. Needs immediate life-saving care.' },
+    complaint: 'Car crash. Bleeding heavily from his leg. Pale, sweaty, and barely responding.',
+    why: 'Heavy bleeding + barely responding = shock from blood loss. He needs life-saving care immediately.' },
   { esi: 1, age: 4, sex: 'F', short: 'Shaking, not responding',
     complaint: 'Mom says she has been shaking all over and not responding for 8 minutes.',
-    vitals: { hr: '160', bp: '100/60', rr: '36', spo2: '88%', temp: '101.8' },
-    why: 'An active seizure that will not stop, with low oxygen, needs medication and airway support right away.' },
+    why: 'A seizure that will not stop needs medicine right away to protect her brain and breathing.' },
 
-  // ---------- ESI 2: high risk / shouldn't wait ----------
+  // ---------- ESI 2: high risk, can't wait ----------
   { esi: 2, age: 62, sex: 'M', short: 'Crushing chest pain',
-    complaint: 'Crushing chest pain spreading to his left arm, sweating. Started 30 minutes ago.',
-    vitals: { hr: '98', bp: '158/94', rr: '20', spo2: '96%', temp: '98.6' },
-    why: 'Classic heart attack warning signs. Vitals look OK, but this is HIGH RISK: every minute of delay damages heart muscle.' },
+    complaint: 'Crushing chest pain spreading to his left arm, and he is sweating. Started 30 minutes ago.',
+    why: 'Classic heart attack warning signs. HIGH RISK: every minute of delay damages heart muscle.' },
   { esi: 2, age: 71, sex: 'F', short: 'Face drooping, slurred speech',
     complaint: 'Daughter says her face started drooping and her speech got slurred about 40 minutes ago.',
-    vitals: { hr: '88', bp: '172/96', rr: '18', spo2: '97%', temp: '98.2' },
-    why: 'Possible stroke. Clot-busting treatment only works within a few hours, so she is high risk even with OK vitals.' },
+    why: 'Possible stroke. Treatment only works within a few hours, so she is high risk even though she is awake.' },
   { esi: 2, age: 45, sex: 'F', short: '"Worst headache of my life"',
     complaint: 'Sudden "worst headache of my life" that hit like a thunderclap an hour ago.',
-    vitals: { hr: '92', bp: '168/100', rr: '18', spo2: '98%', temp: '98.6' },
-    why: 'A sudden thunderclap headache can mean bleeding in the brain. High-risk, even though she is awake and talking.' },
-  { esi: 2, age: 30, sex: 'M', short: 'Fever, confused',
-    complaint: 'Fever and chills for 2 days. Now confused about where he is.',
-    vitals: { hr: '124', bp: '98/60', rr: '24', spo2: '94%', temp: '103.1' },
-    why: 'New confusion + fever + danger-zone heart rate (>100) and breathing (>20) suggest sepsis, a life-threatening infection.' },
-  { esi: 2, age: 67, sex: 'M', short: 'Short of breath, getting worse',
-    complaint: 'Short of breath, getting worse all day. Has COPD (a lung disease).',
-    vitals: { hr: '108', bp: '142/88', rr: '26', spo2: '88%', temp: '98.9' },
-    why: 'Oxygen below 92% and breathing over 20/min are danger-zone vitals, so he must be seen fast.' },
+    why: 'A sudden thunderclap headache can mean bleeding in the brain. High risk, even though she is talking.' },
+  { esi: 2, age: 30, sex: 'M', short: 'High fever, confused',
+    complaint: 'High fever and chills for 2 days. Now he is confused about where he is.',
+    why: 'New confusion with a high fever can mean sepsis, a life-threatening infection. Confusion alone makes someone ESI 2.' },
+  { esi: 2, age: 67, sex: 'M', short: 'Can barely breathe',
+    complaint: 'Short of breath, getting worse all day. He can only say a few words at a time. Has a lung disease (COPD).',
+    why: 'Severe breathing trouble that keeps getting worse is high risk. He can\'t wait, but he is still breathing on his own, so ESI 2.' },
 
-  // ---------- ESI 3: stable, 2+ resources ----------
+  // ---------- ESI 3: stable, needs 2+ resources ----------
   { esi: 3, age: 28, sex: 'F', short: 'Lower right belly pain',
     complaint: 'Pain in her lower right belly since last night, getting worse. Threw up twice.',
-    vitals: { hr: '96', bp: '122/78', rr: '18', spo2: '99%', temp: '100.6' },
-    why: 'Stable vitals, but possible appendicitis needs blood tests AND a CT scan (2+ resources), so ESI 3.' },
+    why: 'Possible appendicitis. She is stable but needs blood tests AND a CT scan (2+ resources), so ESI 3.' },
   { esi: 3, age: 52, sex: 'M', short: 'Side pain in waves',
-    complaint: 'Pain in his side that comes in waves (6/10), some blood in his urine.',
-    vitals: { hr: '94', bp: '140/86', rr: '18', spo2: '98%', temp: '98.4' },
-    why: 'Likely kidney stone: needs labs, a CT scan, and IV pain medicine (2+ resources). Vitals are stable, so ESI 3.' },
+    complaint: 'Pain in his side that comes and goes in waves, and some blood in his urine.',
+    why: 'Likely kidney stone: needs labs, a CT scan, and IV pain medicine (2+ resources), so ESI 3.' },
   { esi: 3, age: 80, sex: 'F', short: 'Fell, hip pain, can\'t walk',
-    complaint: 'Tripped on a rug at home. Hip hurts and she can\'t put weight on it.',
-    vitals: { hr: '84', bp: '150/82', rr: '16', spo2: '96%', temp: '98.0' },
-    why: 'Possible broken hip: X-ray, labs, and an orthopedic specialist (2+ resources). Stable vitals, so ESI 3.' },
+    complaint: 'Tripped on a rug at home. Her hip hurts and she can\'t put weight on it.',
+    why: 'Possible broken hip: X-ray, labs, and a bone specialist (2+ resources), so ESI 3.' },
   { esi: 3, age: 40, sex: 'M', short: 'Vomiting 2 days, dizzy',
     complaint: 'Vomiting and diarrhea for 2 days. Feels dizzy when he stands up.',
-    vitals: { hr: '98', bp: '118/74', rr: '18', spo2: '98%', temp: '99.5' },
-    why: 'Dehydrated: needs blood tests and IV fluids (2 resources). Vitals are not in the danger zone, so ESI 3.' },
+    why: 'Dehydrated: needs blood tests and IV fluids (2 resources), so ESI 3.' },
   { esi: 3, age: 34, sex: 'F', short: 'Cough, fever, chest pain',
-    complaint: 'Cough and fever for 4 days, sharp pain on one side when breathing deeply.',
-    vitals: { hr: '96', bp: '120/76', rr: '20', spo2: '94%', temp: '101.2' },
-    why: 'Possible pneumonia: chest X-ray and labs (2 resources). Oxygen is above 92% and vitals are not past the danger limits, so ESI 3.' },
+    complaint: 'Cough and fever for 4 days, sharp pain on one side when she breathes deeply. Breathing fine at rest.',
+    why: 'Possible pneumonia: chest X-ray and labs (2 resources). She is breathing OK, so ESI 3.' },
 
-  // ---------- ESI 4: stable, 1 resource ----------
+  // ---------- ESI 4: stable, needs 1 resource ----------
   { esi: 4, age: 22, sex: 'M', short: 'Twisted ankle',
-    complaint: 'Rolled his ankle playing basketball. Swollen, but he can limp on it.',
-    vitals: { hr: '82', bp: '128/76', rr: '16', spo2: '99%', temp: '98.6' },
-    why: 'Only needs an X-ray (1 resource). A splint or crutches do not count as resources, so ESI 4.' },
+    complaint: 'Rolled his ankle playing basketball. It is swollen, but he can limp on it.',
+    why: 'Only needs an X-ray (1 resource). Splints and crutches do not count, so ESI 4.' },
   { esi: 4, age: 36, sex: 'F', short: 'Cut finger, needs stitches',
-    complaint: 'Cut her finger with a kitchen knife. About 2 cm long, bleeding is controlled.',
-    vitals: { hr: '78', bp: '118/72', rr: '14', spo2: '99%', temp: '98.4' },
-    why: 'Just needs stitches (1 resource: a simple procedure), so ESI 4.' },
+    complaint: 'Cut her finger with a kitchen knife. About 2 cm long, and the bleeding is under control.',
+    why: 'Just needs stitches (1 resource), so ESI 4.' },
   { esi: 4, age: 17, sex: 'F', short: 'Sore throat, fever',
-    complaint: 'Sore throat and fever, hurts to swallow.',
-    vitals: { hr: '96', bp: '112/70', rr: '16', spo2: '99%', temp: '101.0' },
-    why: 'Needs a strep test (1 lab resource). Antibiotic pills do not count as a resource, so ESI 4.' },
+    complaint: 'Sore throat and fever. It hurts to swallow.',
+    why: 'Needs a strep test (1 lab resource). Antibiotic pills do not count, so ESI 4.' },
   { esi: 4, age: 27, sex: 'F', short: 'Burning when peeing',
-    complaint: 'Burning when she pees and needs to go often.',
-    vitals: { hr: '80', bp: '116/74', rr: '14', spo2: '99%', temp: '98.8' },
+    complaint: 'Burning when she pees and she needs to go often.',
     why: 'Likely urinary tract infection: one urine test (1 resource), so ESI 4.' },
 
-  // ---------- ESI 5: stable, 0 resources ----------
+  // ---------- ESI 5: stable, needs 0 resources ----------
   { esi: 5, age: 49, sex: 'M', short: 'Needs prescription refill',
     complaint: 'Ran out of his blood pressure pills and needs a refill.',
-    vitals: { hr: '76', bp: '138/88', rr: '14', spo2: '98%', temp: '98.4' },
-    why: 'A prescription refill uses no ESI resources, so ESI 5.' },
+    why: 'A prescription refill uses no resources, so ESI 5.' },
   { esi: 5, age: 31, sex: 'F', short: 'Itchy rash (poison ivy?)',
     complaint: 'Itchy rash on her arms after hiking. Looks like poison ivy.',
-    vitals: { hr: '72', bp: '114/70', rr: '14', spo2: '99%', temp: '98.6' },
-    why: 'Exam plus a cream or pills: zero resources, so ESI 5.' },
+    why: 'An exam plus a cream or pills: zero resources, so ESI 5.' },
   { esi: 5, age: 55, sex: 'M', short: 'Stitches removal',
-    complaint: 'Here to get stitches taken out of his hand. Wound looks healed.',
-    vitals: { hr: '70', bp: '126/80', rr: '14', spo2: '99%', temp: '98.2' },
-    why: 'Suture removal needs no resources, so ESI 5.' },
+    complaint: 'Here to get stitches taken out of his hand. The cut looks healed.',
+    why: 'Removing stitches needs no resources, so ESI 5.' },
   { esi: 5, age: 20, sex: 'M', short: 'Runny nose, mild cough',
     complaint: 'Runny nose and mild cough for 2 days. Feels fine otherwise.',
-    vitals: { hr: '74', bp: '120/76', rr: '14', spo2: '99%', temp: '99.0' },
-    why: 'A common cold needs only an exam, so ESI 5. In real life many patients like this could use urgent care instead.' }
+    why: 'A common cold needs only an exam, so ESI 5. Patients like this could often use urgent care instead.' }
 ];
 
 // How often each true level shows up (roughly realistic: ESI 3 is the most common)

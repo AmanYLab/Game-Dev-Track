@@ -1,8 +1,8 @@
-# Vital Quest: Triage
+# Triage Game
 OSU Hackathon, Challenge #2 (Project Vital Quest)
 
 You're the triage nurse in a busy Columbus ER. Patients arrive faster than you can treat them.
-Read each patient's complaint and vital signs and assign a triage level using the real
+Read each patient's complaint and assign a triage level using the real
 **Emergency Severity Index (ESI)**, the 5-level system most U.S. ERs use.
 
 ## How it works
@@ -18,14 +18,14 @@ Read each patient's complaint and vital signs and assign a triage level using th
 
 ## Files
 `index.html`, `main.js`, `cases.js` (all patient cases and facts),
-`MenuScene.js`, `HowToScene.js`, `GameScene.js`, `EndScene.js`
+`MenuScene.js`, `HowToScene.js`, `GuideScene.js`, `GameScene.js`, `EndScene.js`
 
 ## Adding patients
 Copy any entry in `CASES` in `cases.js` and change it. Make sure the `esi` value follows the ESI rules
 at the top of that file.
 
 ## Sources
-- Emergency Severity Index Handbook (ENA, 5th ed.) / AHRQ ESI v4 Implementation Handbook: triage levels, resources, danger-zone vitals
+- Emergency Severity Index Handbook (ENA, 5th ed.) / AHRQ ESI v4 Implementation Handbook: triage levels and resources
 - Sax DR et al. "Evaluation of the Emergency Severity Index in US Emergency Departments for the Rate of Mistriage." JAMA Network Open, 2023
 - Sax DR et al. ESI v4 and Triage of Pediatric ED Patients. JAMA Pediatrics, 2023
 - EMRA Health Policy Journal Club: >70% of U.S. EDs use ESI
