@@ -1,15 +1,14 @@
 # Project Vital Quest: Judge Presentation Guide
 
-Use this guide to prepare the required three-minute video, live Q&A, and judge follow-up. It describes the two prototypes currently associated with this repository. Before recording, decide which game is the official submission and make sure the link or files you present are from that exact version.
+Use this guide to prepare the required three-minute video, live Q&A, and judge follow-up. The current `main` branch contains a chooser for Triage Game and Hospital Manager. Care Route is a separate prototype on `aman`. Before recording, decide which game is the official submission and make sure the link or files you present are from that exact version.
 
 ## Important Version Check
 
-The project histories are currently split across branches:
+The project histories are split across branches:
 
-- **Vital Quest: Triage** is documented on remote `main`. It is a Phaser browser game with patient cases, ESI triage, a three-minute shift, limited beds, and an end-of-shift report.
-- **Care Route** is on the `aman` branch. It is a browser choice game with five community-care access scenarios and an Access Wins score.
-- The combined chooser was developed in a separate local integration worktree and has not been merged or pushed. Do not tell judges that both games are available together in the shared repository unless the team has since integrated and verified them.
-- The latest `main` contains the Triage game; Care Route remains on the separate `aman` branch. The two games have not been combined in the shared repository. Fetch the latest repo and open the branch for the game you are actually presenting.
+- **Triage Game** and **Hospital Manager** are on the current remote `main` branch and linked from the root `index.html` chooser.
+- **Care Route** is on the separate `aman` branch and is not linked from the current `main` chooser.
+- Fetch the latest repo and launch the exact game/branch you are presenting. Do not imply Care Route is in the shared `main` build unless it has since been integrated and verified.
 
 Before the video, confirm with the team which game is the submission. A focused, polished explanation of one game is safer than showing two disconnected prototypes without explaining their relationship.
 
@@ -68,7 +67,7 @@ Answer truthfully. The branch README calls for research and citations, but do no
 
 ## Project Summary: Vital Quest: Triage
 
-Use this section if the team chooses the remote `main` Triage game.
+Use this section if the team chooses Triage Game from the current `main` chooser.
 
 - **Pitch:** The player takes a simulated emergency-department triage shift, assesses fictional patients, assigns ESI levels, and manages arrivals, waiting time, beds, and treatment capacity.
 - **Healthcare topic:** Emergency-department triage, prioritization, and the tradeoffs involved when demand exceeds immediate capacity.
@@ -105,7 +104,38 @@ Suggested answer: “No. It introduces a simplified framework through fictional 
 
 Answer with the exact sources your team checked. The project README lists source organizations and publications; verify the specific case levels and every statistic before presenting. Do not present an unverified number as settled fact.
 
-## Questions Across Both Games
+## Project Summary: Hospital Manager
+
+Use this section if the team chooses Hospital Manager from the current `main` chooser.
+
+- **Pitch:** The player manages a fictional community hospital over a seven-day simulation, balancing patient needs, staffing, beds, supplies, and operating costs.
+- **Healthcare topic and learning goal:** Resource scarcity and the tension between financial sustainability and equitable access to emergency care. Players should consider how resource and admission decisions affect patients and community trust.
+- **Objective:** Survive all seven days while keeping reputation at or above the goal and avoiding bankruptcy, as defined by the game.
+- **Controls and actions:** Use the on-screen controls to admit or transfer patients, hire staff, buy beds or equipment, order supplies, pause, and change simulation speed. Confirm the exact actions in the submitted build before recording.
+- **Progression:** The simulation advances by in-game hours and days. Patient arrivals, supply needs, staffing capacity, random events, and operating costs affect the hospital state.
+- **Scoring and ending:** The end screen reports outcomes such as patients treated, deaths, transfers, uninsured patients served, cash, and reputation, with a win or loss message.
+- **Safety boundary:** This is a simplified management game, not a real hospital planning tool, legal guide, or medical advice.
+- **Research status:** The project README names sources about ESI, emergency access, uninsured coverage, EMTALA, and uncompensated care. Verify exact citations and claims. Do not imply a simple game rule captures all legal requirements or real hospital financing.
+
+### Likely Hospital Manager Questions
+
+**What tradeoff is the player exploring?**
+
+Suggested answer: “The player has finite beds, staff, supplies, and money, while patients continue to arrive. The mechanics are intended to make the effects of resource decisions visible, especially for patients who cannot pay.”
+
+**What does the game teach about uninsured patients?**
+
+Suggested answer: “It asks players to notice how ability to pay and resource constraints can shape access and hospital finances. The simulation simplifies a complex system and should not be read as a literal financial forecast.”
+
+**What is EMTALA, and does it mean hospitals treat the sickest first?**
+
+Suggested answer: “EMTALA generally requires covered hospitals with emergency departments to provide an appropriate medical screening examination and, for an emergency medical condition, stabilizing treatment or an appropriate transfer regardless of ability to pay. It does not itself specify the game's triage scoring rule. We should cite and verify the legal summary and avoid describing the game as legal training.”
+
+**How did you decide the costs and patient outcomes?**
+
+Answer with the actual design process. Explain which values are illustrative game parameters and which claims are sourced. Do not describe fictional balances or outcomes as real-world averages unless supported by a specific source.
+
+## Questions Across the Project's Games
 
 **What is innovative about the project?**
 
@@ -121,11 +151,11 @@ Suggested answer: “The game introduces its role and goal, presents a concrete 
 
 **What is the project's breadth and complexity?**
 
-Suggested answer: “The prototype focuses on a deliberately small playable loop. Its scope is [five access scenarios / a three-minute triage shift], with [feedback, score, progression, and ending] implemented.” Be clear that the project is a prototype, not a complete healthcare system simulation.
+Suggested answer: “Each prototype focuses on a deliberately small playable loop: [five access scenarios / a three-minute triage shift / a seven-day hospital-management simulation], with feedback, progression, and an ending.” Be clear that these are prototypes, not complete healthcare-system simulations.
 
 **What impact do you hope it has?**
 
-Suggested answer: “We hope players leave more aware of [community access barriers / triage tradeoffs] and ask better questions about how those factors affect people. We have not measured real-world health outcomes.”
+Suggested answer: “We hope players leave more aware of [community access barriers / triage tradeoffs / hospital resource decisions] and ask better questions about how those factors affect people. We have not measured real-world health outcomes.”
 
 **How did you navigate the challenge?**
 
@@ -133,7 +163,7 @@ Suggested answer: “We selected a focused healthcare topic, built a playable br
 
 **What would you improve with more time?**
 
-Suggested answer: “We would playtest with more people, improve [specific observed issue], and strengthen the research and accessibility review. For Care Route, we would add verified references and more player-led dialogue. For Triage, we would validate ESI rules and every factual statistic with qualified sources.” Select only improvements relevant to the submitted game.
+Suggested answer: “We would playtest with more people, improve [specific observed issue], and strengthen the research and accessibility review. For Care Route, we would add verified references and more player-led dialogue. For Triage, we would validate ESI rules and each factual statistic with qualified sources. For Hospital Manager, we would validate assumptions and test how different resource policies affect outcomes.” Select only improvements relevant to the submitted game.
 
 **Who did what on the team?**
 
@@ -156,7 +186,7 @@ Do not invent a playtest. Code syntax and local browser loading have been checke
 
 **What assets and tools did you use?**
 
-Care Route uses HTML, CSS, and browser JavaScript. Triage uses JavaScript and Phaser 3.80.1 loaded from jsDelivr. Identify any additional graphics, sounds, fonts, libraries, or AI-generated material included in the exact version you show, and acknowledge their creators/licenses where required.
+Care Route uses HTML, CSS, and browser JavaScript. Triage uses JavaScript and Phaser 3.80.1 loaded from jsDelivr. Hospital Manager uses browser HTML, CSS, and JavaScript. Identify any additional graphics, sounds, fonts, libraries, or AI-generated material included in the exact version you show, and acknowledge their creators/licenses where required.
 
 **Can this be used for real medical advice or training?**
 

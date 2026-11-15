@@ -1,0 +1,48 @@
+* { box-sizing: border-box; }
+body { margin: 0; background: #12303a; color: #f2f7f5; font: 14px Verdana, Geneva, sans-serif; }
+h2 { margin: 0 0 8px; font-size: 1rem; color: #b7d4cc; }
+button { cursor: pointer; border: 0; border-radius: 6px; padding: 6px 10px; background: #2f7f6f; color: #fff; font: inherit; }
+button:hover { background: #3aa675; }
+button.alt { background: #4a5f66; }
+ 
+#top { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; padding: 10px 16px; background: #0b2128; }
+#top .chip b { color: #ffd479; }
+#grid { display: grid; grid-template-columns: 1.1fr 1.2fr 1fr; gap: 14px; padding: 14px; }
+@media (max-width: 900px) { #grid { grid-template-columns: 1fr; } }
+section { background: #1b4450; border-radius: 10px; padding: 12px; min-height: 200px; }
+ 
+.card { background: #0f2a33; border-left: 6px solid #888; border-radius: 6px; padding: 8px; margin-bottom: 8px; }
+.card.s1 { border-color: #3aa675; }
+.card.s2 { border-color: #f0ad4e; }
+.card.s3 { border-color: #d9534f; }
+.card small { color: #b7d4cc; display: block; margin: 2px 0 6px; }
+.bar { height: 8px; background: #444; border-radius: 4px; overflow: hidden; margin-bottom: 6px; }
+.bar i { display: block; height: 100%; background: #3aa675; }
+.bar.hp i { background: #d9534f; }
+ 
+#manage button { display: block; width: 100%; margin-bottom: 6px; text-align: left; }
+#log { max-height: 190px; overflow-y: auto; font-size: 12px; color: #d5e8e2; }
+#log div { padding: 2px 0; border-bottom: 1px solid #2a5663; }
+ 
+#overlay:empty { display: none; }
+#overlay { position: fixed; inset: 0; background: rgba(5, 20, 25, .92); display: flex; align-items: center; justify-content: center; padding: 16px; }
+#overlay .box { max-width: 560px; background: #1b4450; padding: 24px; border-radius: 12px; line-height: 1.5; }
+#overlay h1 { margin-top: 0; }
+ 
+a.back { color: #b7d4cc; margin-left: 10px; }
+a.back.corner { display: block; padding: 6px 16px 0; background: #0b2128; font-size: 13px; text-decoration: none; }
+#overlay li { margin-bottom: 4px; }
+#overlay small { color: #b7d4cc; }
+.red { color: #ff8a80; font-weight: bold; }
+.levels { display: flex; gap: 8px; margin-bottom: 14px; }
+.levels button { flex: 1; padding: 10px; font-size: 15px; font-weight: bold; }
+.levels button small { display: block; font-weight: normal; font-size: 11px; color: #d5e8e2; margin-top: 3px; }
+#log div.lesson { background: #2b5d4f; border-left: 4px solid #ffd479; padding: 6px; margin: 4px 0; color: #fff; font-size: 13px; }
+.card i { color: #ffb4a8; font-size: 12px; }
+#overlay h3 { margin: 12px 0 4px; font-size: 1rem; color: #ffd479; }
+#overlay .box { max-height: 92vh; overflow-y: auto; }
+#tip:empty { display: none; }
+#tip { background: #2b5d4f; border-left: 4px solid #ffd479; border-radius: 6px; padding: 8px 10px; margin: 10px 0; font-size: 13px; line-height: 1.4; }
+#tip h2 { color: #ffd479; margin-bottom: 4px; }
+#top .chip.full { color: #ff8a80; } #top .chip.full b { color: #ff8a80; }
+ 

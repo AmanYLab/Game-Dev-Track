@@ -1,59 +1,40 @@
-# Project Vital Quest
+# Project Vital Quest (OSU Hackathon, Challenge #2)
 
-Project Vital Quest prototypes use interactive games to explore healthcare. The current remote `main` branch contains **Vital Quest: Triage**. **Care Route** is a separate prototype on the `aman` branch and is not included in the current `main` build.
+The current `main` branch has a game-select page linking to two browser games about healthcare: emergency triage and hospital resource management. **Care Route** is an additional community-health prototype on the separate `aman` branch and is not currently linked from `main`.
 
-## Vital Quest: Triage
+| Folder | Game | Healthcare topic |
+|---|---|---|
+| `triage/` | **Triage Game**: you're an ER triage nurse ranking patients ESI 1-5 | How ERs decide who is seen first (Emergency Severity Index), and the cost of mistriage |
+| `hospital-game/` | **Hospital Manager**: run a hospital for 7 days | Money vs. care: staffing, supplies, uninsured patients, and emergency-care obligations |
 
-You are the triage nurse in a busy emergency department. Patients arrive faster than they can be treated. Review each fictional patient's complaint and vital signs, then assign a triage level using the five-level Emergency Severity Index (ESI).
+## How the files fit together
+- `index.html` (top level): the game-select page. It just links to the two folders.
+- `triage/`: built with Phaser (game library). `cases.js` = patient data and facts, `GameScene.js` = the game, other `*Scene.js` files = menu/instructions/guide/results screens.
+- `hospital-game/`: plain HTML + JavaScript, no library. `game.js` (about 200 lines) has 5 labeled sections: Data (all the numbers to tweak), Setup, Game loop (runs once per in-game hour), Player actions, Drawing. `style.css` = the look.
 
-- **Objective:** Prioritize patients during a three-minute shift while managing limited beds and time.
-- **Controls:** Click a patient in the waiting room, then click ESI 1-5 or press keys 1-5.
-- **Consequences:** Undertriage can make a sick patient wait too long. Overtriage uses capacity that may be needed by more urgent patients. Patients may worsen or leave without being seen if waits are too long.
-- **Scoring:** +100 correct triage, +20 overtriage, -50 undertriage, +20 per patient treated, -150 bad outcome, and -40 for a patient leaving without being seen.
-- **Feedback:** Each decision explains the intended ESI level and rationale; the shift ends with a results summary.
+## Triage Game
+- **Controls:** click a patient, then ESI 1-5 (or keys 1-5).
+- **Goal:** sickest patients first, 3-minute shift.
+- **Scoring:** +100 correct, +20 overtriage, -50 undertriage, +20 treated, -150 bad outcome, -40 left without being seen.
 
-The patient cases are fictional learning examples, not medical advice or clinical training. Real triage requires qualified professionals and full patient context.
+## Hospital Manager
+- **Controls:** click **Admit** on a waiting patient, **Add a bed** on the right, and **Pause** at the top.
+- **Goal:** survive 7 days with reputation 40 or higher without going bankrupt.
+- **The money dilemma:** insured patients pay, uninsured patients don't, and every bed costs $400/day in staff. But EMTALA says ERs must treat the sickest first, whether or not they can pay. Admit a paying patient ahead of a sicker uninsured one and you lose 12 reputation. Patients who die waiting cost 10.
+- **Tested:** in simulated games, a "sickest first" player always wins, while a "paying patients first" player loses about half the time.
 
-## Care Route
+## Care Route (separate `aman` branch)
 
-Care Route is a browser-based choice simulation on the `aman` branch. The player acts as a community health navigator, listens to five neighbors, and chooses support for the barrier each person describes.
+Care Route is a browser choice game in which the player acts as a community health navigator. Across five scenarios, the player chooses support for barriers involving transportation, language access, accessible entrances, appointment schedules, and cost information. A correct barrier match earns one Access Win; feedback explains each outcome, and a shift summary closes the game. This prototype is not part of the current `main` launcher unless it is merged and integrated.
 
-- **Healthcare topic:** Access to care, including transportation, language access, accessible entrances, appointment availability, and cost information.
-- **Learning goal:** Getting care can depend on more than the clinical service itself; useful support starts by understanding the person's specific barrier.
-- **Objective and progression:** Complete five short scenarios, each with three possible responses.
-- **Controls:** Use the on-screen buttons with a mouse, touch screen, or keyboard activation.
-- **Scoring:** Earn one Access Win when the chosen support addresses the stated barrier. This is a learning-game score, not a measure of a person's health or worth.
-- **Ending:** Immediate feedback follows each choice; a shift summary shows the score and learning point and allows replay.
+## Sources
+- Emergency Severity Index Handbook (ENA, 5th ed.) / AHRQ ESI v4 Implementation Handbook
+- Sax DR et al., "Evaluation of the ESI in US Emergency Departments for the Rate of Mistriage," JAMA Network Open, 2023; and ESI v4 pediatric study, JAMA Pediatrics, 2023
+- EMRA Health Policy Journal Club: >70% of U.S. EDs use ESI
+- CDC/NCHS Data Brief No. 503 (ED visit rates, 2022)
+- CMS Timely & Effective Care data via Becker's Hospital Review (left-without-being-seen rate, 2024)
+- Congressional Research Service, "EMTALA: Access to Emergency Medical Care"; StatPearls, "EMTALA and Transfers"
+- U.S. Census Bureau, Health Insurance Coverage in the United States: 2024 (8% uninsured)
+- American Hospital Association, uncompensated care data ($41.6B in 2019)
 
-The characters and scenarios are simplified examples. The game does not diagnose, prescribe treatment, or replace advice from a qualified healthcare professional. Verify and cite relevant sources before presenting health claims.
-
-## Running the Games
-
-For Triage, use the latest `main` branch. For Care Route, switch to `aman`. In either branch, open the repository's `index.html` in a browser, or start a local static server from the project folder:
-
-```powershell
-npx http-server -p 8000
-```
-
-Then visit `http://127.0.0.1:8000` and leave the terminal running. Triage loads Phaser 3.80.1 from jsDelivr and needs an internet connection for that library. Care Route uses browser HTML, CSS, and JavaScript. Do not run browser scripts such as `app.js` directly with Node.
-
-## Triage Sources and Content Notes
-
-- Emergency Nurses Association, *Emergency Severity Index Handbook*, 5th edition, and AHRQ, *ESI v4 Implementation Handbook*: triage levels, resources, and danger-zone vital signs.
-- Sax DR et al., “Evaluation of the Emergency Severity Index in US Emergency Departments for the Rate of Mistriage.” *JAMA Network Open*, 2023.
-- Sax DR et al., research on ESI v4 and pediatric emergency-department triage. *JAMA Pediatrics*, 2023.
-- EMRA Health Policy Journal Club: ESI adoption information.
-- CDC/NCHS Data Brief No. 503: U.S. emergency department visit rates, 2022.
-- CMS Timely & Effective Care data and Emergency Medicine Journal review: left-without-being-seen context.
-
-The README lists source names, but teams should verify each factual claim and statistic against the original publication before presenting it. Do not present unverified figures as settled fact.
-
-## Adding Triage Cases
-
-Copy an entry in the `CASES` array in `cases.js` and update it carefully. Follow the ESI guidance at the top of that file and verify the case with authoritative clinical references. Patient cases must remain fictional teaching examples.
-
-## Team Testing and Presentation
-
-Ask someone outside the development team to try the game without coaching. Check whether the player can start, understand the controls and objective, complete the core loop, and explain the intended learning. Record what you learned and what you changed; do not claim a playtest unless it happened.
-
-In the presentation, explain the healthcare topic, intended audience, learning goal, controls, choices, scoring, consequences, tools, sources, AI assistance, and each team member's actual contribution. Be clear about the prototype's limitations and distinguish code checks from user playtesting.
+Patients and hospitals in these games are fictional teaching examples, not medical or legal advice.
