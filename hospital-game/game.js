@@ -1,7 +1,7 @@
 // ============================================================
 // HOSPITAL MANAGER (simple version)
 // Run a hospital for 7 days. Every tick = 1 hour.
-// Admit patients into beds and pay your staff every morning.
+// Admit patients into beds, hire doctors and nurses, and pay salaries every morning.
 // Insured patients pay you. Uninsured patients don't, but the law
 // (EMTALA) says you must treat the sickest patients first anyway.
 // Sections: 1 Data | 2 Setup | 3 Game loop | 4 Player actions | 5 Drawing
@@ -9,21 +9,24 @@
 
 // ---------- 1. DATA (edit these to change the game!) ----------
 const DAYS = 7;
-const BED_COST_PER_DAY = 400;   // staff for each bed, paid every morning
-const NEW_BED_PRICE = 1500;
+// Staff: each DOCTOR can treat 2 patients at once (no free doctor = can't admit).
+//        each NURSE can care for 3 patients (too few nurses = treatment at half speed).
+const DOCTOR = { hire: 800, salary: 500, patients: 2 };   // hire = one-time cost, salary = per day
+const NURSE  = { hire: 300, salary: 200, patients: 3 };
+const BED    = { buy: 1000, upkeep: 100 };
 const UNINSURED_RATE = 0.15;    // chance a patient has no insurance
 const NAMES = ["Alex", "Maria", "Sam", "Priya", "Jordan", "Chen", "Fatima", "Luis", "Amara", "Noah", "Zoe", "Omar"];
 const SEVERITY = ["", "Minor", "Urgent", "CRITICAL"];
-const HEALTH_LOST_PER_HOUR = { 1: 1, 2: 3, 3: 8 };  // how fast waiting patients get worse
+const HEALTH_LOST_PER_HOUR = { 1: 2, 2: 5, 3: 12 };  // how fast waiting patients get worse
 
 // sev: 1 minor, 2 urgent, 3 critical | hrs: hours in a bed | pay: what insurance pays
 const CONDITIONS = [
-  { name: "Sprained ankle", sev: 1, hrs: 3,  pay: 150 },
-  { name: "Flu",            sev: 1, hrs: 4,  pay: 150 },
-  { name: "Broken arm",     sev: 2, hrs: 5,  pay: 350 },
-  { name: "Asthma attack",  sev: 2, hrs: 4,  pay: 300 },
-  { name: "Heart attack",   sev: 3, hrs: 8,  pay: 900 },
-  { name: "Stroke",         sev: 3, hrs: 10, pay: 1000 },
+  { name: "Sprained ankle", sev: 1, hrs: 3,  pay: 100 },
+  { name: "Flu",            sev: 1, hrs: 4,  pay: 100 },
+  { name: "Broken arm",     sev: 2, hrs: 5,  pay: 250 },
+  { name: "Asthma attack",  sev: 2, hrs: 4,  pay: 200 },
+  { name: "Heart attack",   sev: 3, hrs: 8,  pay: 600 },
+  { name: "Stroke",         sev: 3, hrs: 10, pay: 700 },
 ];
 
 // ---------- 2. SETUP ----------
@@ -32,7 +35,7 @@ let timer;
 
 function newGame() {
   G = {
-    day: 1, hour: 7, cash: 5000, beds: 2, rep: 70,
+    day: 1, hour: 7, cash: 4000, beds: 3, doctors: 1, nurses: 1, rep: 70,
     waiting: [], ward: [], log: [], nextId: 1, paused: false, over: false,
     stats: { treated: 0, uninsuredTreated: 0, deaths: 0, skips: 0 },
   };
@@ -46,10 +49,11 @@ function showIntro() {
   document.getElementById("overlay").innerHTML = `<div class="box">
     <h1>🏥 Hospital Manager</h1>
     <p>Run a hospital for ${DAYS} days. Click <b>Admit</b> to put a waiting patient in a free bed.</p>
+    <p>👩‍⚕️ Each <b>doctor</b> can treat ${DOCTOR.patients} patients at once. 🧑‍⚕️ Each <b>nurse</b> can care for ${NURSE.patients}. Too few nurses and treatment slows to half speed.</p>
     <p><span class="red">Critical</span> patients get worse fast and can die while waiting.</p>
-    <p>💳 Insured patients pay when they recover. 🚫 Uninsured patients pay nothing. Every morning you pay $${BED_COST_PER_DAY} per bed for staff.</p>
+    <p>💳 Insured patients pay when they recover. 🚫 Uninsured patients pay nothing. Every morning you pay salaries: doctors $${DOCTOR.salary}, nurses $${NURSE.salary}, beds $${BED.upkeep}. Hire too many and you go broke!</p>
     <p>⚖️ <b>The law (EMTALA):</b> ERs must treat the sickest patients first, whether or not they can pay. Skip a sicker uninsured patient to treat a paying one and your reputation drops.</p>
-    <p><b>Win:</b> finish day ${DAYS} with reputation 40+ and without going bankrupt.</p>
+    <p><b>Win:</b> finish day ${DAYS} with reputation 50+ and without going bankrupt.</p>
     <button onclick="newGame()">Start</button> <a class="back" href="../">All games</a></div>`;
 }
 
@@ -68,13 +72,13 @@ function tick() {
   // waiting patients get worse
   G.waiting.forEach((p) => { p.health -= HEALTH_LOST_PER_HOUR[p.c.sev]; });
   G.waiting.filter((p) => p.health <= 0).forEach((p) => {
-    G.stats.deaths++; G.rep -= 10;
-    say(`💀 ${p.name} (${p.c.name}) died waiting. Reputation -10.`);
+    G.stats.deaths++; G.rep -= 15;
+    say(`💀 ${p.name} (${p.c.name}) died waiting. Reputation -15.`);
   });
   G.waiting = G.waiting.filter((p) => p.health > 0);
 
   // patients in beds get treated
-  G.ward.forEach((p) => p.progress++);
+  G.ward.forEach((p) => { p.progress += enoughNurses() ? 1 : 0.5; });
   G.ward.filter((p) => p.progress >= p.c.hrs).forEach(discharge);
   G.ward = G.ward.filter((p) => p.progress < p.c.hrs);
 
@@ -82,10 +86,12 @@ function tick() {
   render();
 }
 
+function enoughNurses() { return G.nurses * NURSE.patients >= G.ward.length; }
+
 function payStaff() {
-  const bill = G.beds * BED_COST_PER_DAY;
+  const bill = G.doctors * DOCTOR.salary + G.nurses * NURSE.salary + G.beds * BED.upkeep;
   G.cash -= bill;
-  say(`📅 Day ${G.day}: paid $${bill} for staff (${G.beds} beds).`);
+  say(`📅 Day ${G.day}: paid $${bill} in salaries and upkeep.`);
   if (G.cash < -2000) end();
 }
 
@@ -110,19 +116,19 @@ function addPatient() {
 
 function discharge(p) {
   G.stats.treated++;
-  G.rep = Math.min(100, G.rep + p.c.sev);
   if (p.insured) {
     G.cash += p.c.pay;
     say(`✅ ${p.name} recovered. Insurance paid +$${p.c.pay}.`);
   } else {
     G.stats.uninsuredTreated++;
-    say(`✅ ${p.name} (uninsured) recovered. No payment.`);
+    G.rep = Math.min(100, G.rep + 2);
+    say(`✅ ${p.name} (uninsured) recovered. No payment, but community trust +2.`);
   }
 }
 
 function end() {
   G.over = true; clearInterval(timer);
-  const win = G.day > DAYS && G.rep >= 40;
+  const win = G.day > DAYS && G.rep >= 50;
   const reason = win ? "You kept the doors open and the community trusts you!"
     : G.cash < -2000 ? "The hospital went bankrupt."
     : G.rep <= 0 ? "The community lost all trust in your hospital."
@@ -145,12 +151,13 @@ function admit(id) {
   const p = G.waiting.find((x) => x.id === id);
   if (!p || G.over) return;
   if (G.ward.length >= G.beds) return say("❌ No free bed. Add a bed or wait.");
+  if (G.ward.length >= G.doctors * DOCTOR.patients) return say("❌ No free doctor. Hire a doctor or wait.");
 
   // EMTALA: treat by medical need, not by who can pay
   const sicker = G.waiting.find((x) => !x.insured && x.c.sev > p.c.sev);
   if (p.insured && sicker) {
-    G.rep -= 12; G.stats.skips++;
-    say(`⚖️ You treated ${p.name} (insured) before ${sicker.name} (uninsured, sicker). ERs must treat the sickest first. Reputation -12.`);
+    G.rep -= 15; G.stats.skips++;
+    say(`⚖️ You treated ${p.name} (insured) before ${sicker.name} (uninsured, sicker). ERs must treat the sickest first. Reputation -15.`);
   }
 
   G.waiting = G.waiting.filter((x) => x !== p);
@@ -159,12 +166,14 @@ function admit(id) {
   if (G.rep <= 0) end();
 }
 
-function addBed() {
+function buy(cost, action, message) {
   if (G.over) return;
-  if (G.cash < NEW_BED_PRICE) return say("❌ Not enough cash.");
-  G.cash -= NEW_BED_PRICE; G.beds++;
-  say(`🛏️ Added a bed (-$${NEW_BED_PRICE}, +$${BED_COST_PER_DAY}/day staff).`);
+  if (G.cash < cost) return say("❌ Not enough cash.");
+  G.cash -= cost; action(); say(message);
 }
+function hireDoctor() { buy(DOCTOR.hire, () => G.doctors++, `👩‍⚕️ Hired a doctor (-$${DOCTOR.hire}, salary $${DOCTOR.salary}/day).`); }
+function hireNurse()  { buy(NURSE.hire,  () => G.nurses++,  `🧑‍⚕️ Hired a nurse (-$${NURSE.hire}, salary $${NURSE.salary}/day).`); }
+function addBed()     { buy(BED.buy,     () => G.beds++,    `🛏️ Added a bed (-$${BED.buy}, upkeep $${BED.upkeep}/day).`); }
 
 function togglePause() { G.paused = !G.paused; render(); }
 
@@ -185,6 +194,8 @@ function render() {
     <span class="chip">💰 <b>$${G.cash}</b></span>
     <span class="chip">⭐ Reputation <b>${Math.round(G.rep)}</b></span>
     <span class="chip">🛏️ Beds <b>${G.ward.length}/${G.beds}</b></span>
+    <span class="chip">👩‍⚕️ Doctors <b>${G.doctors}</b> (${G.doctors * DOCTOR.patients} patients)</span>
+    <span class="chip">🧑‍⚕️ Nurses <b>${G.nurses}</b> (${G.nurses * NURSE.patients} patients)</span>
     <button class="alt" onpointerdown="togglePause()">${G.paused ? "▶ Resume" : "⏸ Pause"}</button>`;
 
   $("queue").innerHTML = G.waiting.length ? G.waiting.map((p) => `
@@ -200,9 +211,14 @@ function render() {
       <b>${p.name}</b> <small>${p.c.name}</small>
       <div class="bar"><i style="width:${(p.progress / p.c.hrs) * 100}%"></i></div>
     </div>`).join("") || "<p>All beds empty.</p>";
+  if (!enoughNurses()) $("wards").innerHTML += "<p class='red'>⚠️ Not enough nurses: treatment is at half speed!</p>";
 
+  const dailyBill = G.doctors * DOCTOR.salary + G.nurses * NURSE.salary + G.beds * BED.upkeep;
   $("manage").innerHTML = `
-    <button onpointerdown="addBed()">Add a bed ($${NEW_BED_PRICE}, +$${BED_COST_PER_DAY}/day)</button>`;
+    <button onpointerdown="hireDoctor()">Hire doctor $${DOCTOR.hire} (+$${DOCTOR.salary}/day)</button>
+    <button onpointerdown="hireNurse()">Hire nurse $${NURSE.hire} (+$${NURSE.salary}/day)</button>
+    <button onpointerdown="addBed()">Add a bed $${BED.buy} (+$${BED.upkeep}/day)</button>
+    <small>Tomorrow's bill: $${dailyBill}</small>`;
 
   $("log").innerHTML = G.log.map((line) => `<div>${line}</div>`).join("");
 }
