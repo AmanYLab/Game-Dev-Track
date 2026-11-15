@@ -6,6 +6,59 @@ Design and build an interactive game that explores a healthcare topic. The game 
 
 You may work in any suitable game engine or platform, including Unity, Unreal Engine, Godot, Scratch, or another tool. A small, playable prototype is more important than a large, unfinished game.
 
+## Our Game: Care Route
+
+**Care Route** is a short browser-based community health game. The player is a community health navigator who listens to neighbors, identifies the obstacle making care difficult to reach, and chooses a support that addresses that obstacle.
+
+- **Audience:** Students and other players learning about community health.
+- **Healthcare topic:** Access to care and the everyday factors that can affect it, including transportation, language access, physical accessibility, appointment availability, and cost information.
+- **Learning goal:** Players will recognize that getting healthcare can depend on more than the care itself, and that useful support starts by understanding the person's specific barrier.
+- **Genre:** Choice-based simulation and educational game.
+- **Objective:** Work through five neighbor scenarios and select a support for each one.
+- **Controls:** Use a mouse, touch screen, or keyboard to activate the on-screen buttons.
+- **Player actions:** Read a neighbor's situation, choose one of three responses, review feedback, and continue to the next neighbor.
+- **Progression:** Five short scenarios covering transportation, language, accessible entrances, scheduling, and cost questions.
+- **Scoring:** An Access Win is earned when the selected support addresses the barrier in that scenario. The score is feedback about matching support to a stated need, not a measure of a person's health or worth.
+- **Ending:** A shift summary shows the score and repeats the central learning point. Players can restart and try different choices.
+
+The characters and scenarios are simplified examples for learning. The game does not diagnose, prescribe treatment, or replace advice from a qualified healthcare professional. Before presenting, the team should verify health-related statements with trustworthy sources and add those sources to its presentation notes.
+
+## Run the Game
+
+The prototype uses HTML, CSS, and JavaScript and does not require Python or a game engine.
+
+1. Open this repository's `index.html` in a browser, or use VS Code's **Open with Live Server** command if that extension is installed.
+2. Select **Start your shift**.
+3. Read each neighbor's situation and choose the response that best addresses the stated barrier.
+4. Read the feedback, continue through all five neighbors, and review the shift summary.
+
+If Node.js is installed, an optional local server can be started from the project folder:
+
+```powershell
+npx http-server -p 8000
+```
+
+Then visit `http://127.0.0.1:8000` in a browser and leave the terminal running while you play. Do not run `node app.js` directly: the script uses browser APIs and is loaded by `index.html`.
+
+## Team Workflow
+
+Each teammate can work on a separate branch. A branch created only on one computer is not visible to others until it is pushed to the shared repository.
+
+```powershell
+git switch -c your-name/feature
+git add .
+git commit -m "Describe your change"
+git push -u origin your-name/feature
+```
+
+Share changes by opening a pull request on GitHub and merging it into the agreed shared branch. Before starting work, update your local copy of that shared branch. Avoid having multiple people edit the same file at the same time where possible.
+
+## Testing and Presentation Notes
+
+Before presenting, ask someone outside the development team to play without coaching. Check whether they can start the game, understand the choices, finish the shift, and explain what the scenarios taught them. Record the feedback and any changes made afterward; do not claim testing was completed until the team has done it.
+
+In the demonstration, explain the learning goal, controls, five barriers, how the Access Win score works, one example of a choice and its consequence, and what the team changed after testing. Identify team contributions and any AI tools or generated content used. The team should review and understand all submitted code and content.
+
 ## Challenge Goals
 
 Your project should:
