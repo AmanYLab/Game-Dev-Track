@@ -9,8 +9,9 @@ class MenuScene extends Phaser.Scene {
       'You can\'t treat everyone at once. Who gets care first?',
       { fontSize: '22px', color: '#cfe3ff', align: 'center', lineSpacing: 8 }).setOrigin(0.5);
 
-    makeButton(this, 550, 440, '[ START SHIFT ]', '#77ff99', () => this.scene.start('Game'));
-    makeButton(this, 550, 510, '[ HOW TO PLAY ]', '#74c0fc', () => this.scene.start('HowTo'));
+    makeButton(this, 550, 420, '[ START SHIFT ]', '#77ff99', () => this.scene.start('Game'));
+    makeButton(this, 550, 490, '[ HOW TO PLAY ]', '#74c0fc', () => this.scene.start('HowTo'));
+    makeButton(this, 550, 560, '[ ALL GAMES ]', '#ffd43b', () => { window.location.href = '../'; });
   }
 }
 

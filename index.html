@@ -3,22 +3,51 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Triage Game</title>
+  <title>Project Vital Quest: Choose a Game</title>
   <style>
-    html, body { margin: 0; height: 100%; background: #0b131c; overflow: hidden; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: #14202e; color: #f2f7f5;
+           font-family: Verdana, Geneva, sans-serif; display: flex; flex-direction: column; align-items: center; padding: 40px 16px; }
+    h1 { margin: 0 0 6px; font-size: 2.4rem; letter-spacing: 1px; }
+    .sub { margin: 0 0 36px; color: #cfe3ff; text-align: center; }
+    .games { display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; max-width: 960px; }
+    a.card { display: block; width: 400px; max-width: 100%; padding: 26px; border-radius: 14px; text-decoration: none; color: inherit;
+             background: #1b2a3b; border: 3px solid #34506e; transition: transform .15s, border-color .15s; }
+    a.card:hover { transform: translateY(-4px); }
+    a.card.triage:hover { border-color: #d64545; }
+    a.card.hospital:hover { border-color: #3aa675; }
+    .icon { font-size: 2.6rem; }
+    h2 { margin: 8px 0 6px; font-size: 1.5rem; }
+    .tag { display: inline-block; font-size: .75rem; padding: 3px 8px; border-radius: 20px; margin-bottom: 12px; }
+    .triage .tag { background: #d64545; }
+    .hospital .tag { background: #2f7f6f; }
+    p { line-height: 1.5; color: #dbe7f3; margin: 0 0 14px; }
+    .play { font-weight: bold; color: #ffd43b; }
+    footer { margin-top: 40px; font-size: .8rem; color: #6c829a; text-align: center; }
   </style>
 </head>
 <body>
-  <div id="game" style="width:100vw; height:100vh;"></div>
+  <h1>Project Vital Quest</h1>
+  <p class="sub">Two games about the hard choices behind emergency care. Pick one to play.</p>
 
-  <script src="https://cdn.jsdelivr.net/npm/phaser@3.80.1/dist/phaser.min.js"></script>
-  <!-- Order matters: data first, main.js last -->
-  <script src="cases.js"></script>
-  <script src="MenuScene.js"></script>
-  <script src="HowToScene.js"></script>
-  <script src="GuideScene.js"></script>
-  <script src="GameScene.js"></script>
-  <script src="EndScene.js"></script>
-  <script src="main.js"></script>
+  <div class="games">
+    <a class="card triage" href="triage/">
+      <div class="icon">🚑</div>
+      <h2>Triage Game</h2>
+      <span class="tag">WHO GETS CARE FIRST?</span>
+      <p>You're the triage nurse in a busy Columbus ER. Read each patient's complaint and rank how urgent they are using the real 5-level system ERs use. Get it wrong and sick patients wait too long.</p>
+      <span class="play">Play →</span>
+    </a>
+
+    <a class="card hospital" href="hospital-game/">
+      <div class="icon">🏥</div>
+      <h2>Hospital Manager</h2>
+      <span class="tag">CARE VS. COST</span>
+      <p>Run a community hospital for 7 days. Pay your staff and keep beds open, while treating the sickest patients first, even the ones who can't pay.</p>
+      <span class="play">Play →</span>
+    </a>
+  </div>
+
+  <footer>OSU Hackathon · Challenge #2: Project Vital Quest<br>Learning games, not medical advice.</footer>
 </body>
 </html>

@@ -1,35 +1,37 @@
-# Triage Game
-OSU Hackathon, Challenge #2 (Project Vital Quest)
+# Project Vital Quest (OSU Hackathon, Challenge #2)
 
-You're the triage nurse in a busy Columbus ER. Patients arrive faster than you can treat them.
-Read each patient's complaint and assign a triage level using the real
-**Emergency Severity Index (ESI)**, the 5-level system most U.S. ERs use.
+Two short browser games about the hard choices behind emergency care.
+Open `index.html` (or the GitHub Pages link) to pick a game.
 
-## How it works
-- **Controls:** click a patient in the waiting room, then click ESI 1-5 (or press keys 1-5).
-- **Objective:** get the sickest patients care first during a 3-minute shift.
-- **Consequences built into the mechanics:**
-  - *Undertriage* a sick patient and they sit behind less urgent patients, which can cause a bad outcome.
-  - *Overtriage* someone and they take a bed (or the resus bay) away from sicker patients.
-  - Leave the waiting room full or people waiting too long and they leave without being seen.
-- **Scoring:** +100 correct, +20 overtriage, -50 undertriage, +20 per patient treated,
-  -150 bad outcome, -40 left without being seen.
-- **Feedback:** after every decision the game explains the correct ESI level and why.
+| Folder | Game | Healthcare topic |
+|---|---|---|
+| `triage/` | **Triage Game**: you're an ER triage nurse ranking patients ESI 1-5 | How ERs decide who is seen first (Emergency Severity Index), and the cost of mistriage |
+| `hospital-game/` | **Hospital Manager**: run a hospital for 7 days | Money vs. care: staff costs, uninsured patients, and EMTALA (the law that says ERs must treat the sickest first) |
 
-## Files
-`index.html`, `main.js`, `cases.js` (all patient cases and facts),
-`MenuScene.js`, `HowToScene.js`, `GuideScene.js`, `GameScene.js`, `EndScene.js`
+## How the files fit together
+- `index.html` (top level): the game-select page. It just links to the two folders.
+- `triage/`: built with Phaser (game library). `cases.js` = patient data and facts, `GameScene.js` = the game, other `*Scene.js` files = menu/instructions/guide/results screens.
+- `hospital-game/`: plain HTML + JavaScript, no library. `game.js` (about 200 lines) has 5 labeled sections: Data (all the numbers to tweak), Setup, Game loop (runs once per in-game hour), Player actions, Drawing. `style.css` = the look.
 
-## Adding patients
-Copy any entry in `CASES` in `cases.js` and change it. Make sure the `esi` value follows the ESI rules
-at the top of that file.
+## Triage Game
+- **Controls:** click a patient, then ESI 1-5 (or keys 1-5).
+- **Goal:** sickest patients first, 3-minute shift.
+- **Scoring:** +100 correct, +20 overtriage, -50 undertriage, +20 treated, -150 bad outcome, -40 left without being seen.
+
+## Hospital Manager
+- **Controls:** click **Admit** on a waiting patient, **Add a bed** on the right, and **Pause** at the top.
+- **Goal:** survive 7 days with reputation 40 or higher without going bankrupt.
+- **The money dilemma:** insured patients pay, uninsured patients don't, and every bed costs $400/day in staff. But EMTALA says ERs must treat the sickest first, whether or not they can pay. Admit a paying patient ahead of a sicker uninsured one and you lose 12 reputation. Patients who die waiting cost 10.
+- **Tested:** in simulated games, a "sickest first" player always wins, while a "paying patients first" player loses about half the time.
 
 ## Sources
-- Emergency Severity Index Handbook (ENA, 5th ed.) / AHRQ ESI v4 Implementation Handbook: triage levels and resources
-- Sax DR et al. "Evaluation of the Emergency Severity Index in US Emergency Departments for the Rate of Mistriage." JAMA Network Open, 2023
-- Sax DR et al. ESI v4 and Triage of Pediatric ED Patients. JAMA Pediatrics, 2023
+- Emergency Severity Index Handbook (ENA, 5th ed.) / AHRQ ESI v4 Implementation Handbook
+- Sax DR et al., "Evaluation of the ESI in US Emergency Departments for the Rate of Mistriage," JAMA Network Open, 2023; and ESI v4 pediatric study, JAMA Pediatrics, 2023
 - EMRA Health Policy Journal Club: >70% of U.S. EDs use ESI
-- CDC/NCHS Data Brief No. 503: ED visit rates, 2022
-- CMS Timely & Effective Care data (via Becker's Hospital Review): left-without-being-seen rate, 2024
+- CDC/NCHS Data Brief No. 503 (ED visit rates, 2022)
+- CMS Timely & Effective Care data via Becker's Hospital Review (left-without-being-seen rate, 2024)
+- Congressional Research Service, "EMTALA: Access to Emergency Medical Care"; StatPearls, "EMTALA and Transfers"
+- U.S. Census Bureau, Health Insurance Coverage in the United States: 2024 (8% uninsured)
+- American Hospital Association, uncompensated care data ($41.6B in 2019)
 
-Patient cases are fictional teaching examples, not medical advice.
+Patients and hospitals in these games are fictional teaching examples, not medical or legal advice.
